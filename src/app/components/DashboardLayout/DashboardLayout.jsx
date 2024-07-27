@@ -2,7 +2,7 @@ import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
 
 // eslint-disable-next-line react/prop-types
-const Layout = ({ children }) => {
+const DashboardLayout = ({ children }) => {
   return (
     <div className="flex">
       <Header />
@@ -14,4 +14,4 @@ const Layout = ({ children }) => {
   );
 };
 
-export default Layout;
+export default DashboardLayout;

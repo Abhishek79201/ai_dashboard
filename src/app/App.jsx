@@ -1,17 +1,14 @@
-"use client";
-import React from "react";
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
-import Layout from "./components/Layout/Layout";
+'use client'
+import React from 'react'
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
 
 const App = ({ children }) => {
   return (
     <>
-      <Provider store={store}>
-        <Layout>{children}</Layout>
-      </Provider>
+      <Provider store={store}>{children}</Provider>
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App
