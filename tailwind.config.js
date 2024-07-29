@@ -13,6 +13,7 @@ module.exports = {
         accent: "#5155D1",
         grayLight: "#b4b4b4",
         grayDark: "#545454",
+        grayDarkOpac: "#dddddd3c",
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],

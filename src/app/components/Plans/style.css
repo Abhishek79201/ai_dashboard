@@ -13,7 +13,7 @@ a {
 }
 
 section {
-  padding: 3rem 0;
+  padding: 1rem 0;
   margin: 0 auto;
   text-align: center;
   width: 100%;
@@ -39,7 +39,7 @@ p {
   justify-content: center;
   flex-wrap: wrap;
   gap: 0.8em;
-  margin-top: 5em;
+  margin-top: 2em;
 }
 
 .pricing-card {
@@ -84,7 +84,7 @@ p {
 }
 
 .ribbon::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   right: -0.563rem;
@@ -95,7 +95,7 @@ p {
 }
 
 .ribbon::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -0.063rem;
   left: 0;

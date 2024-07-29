@@ -93,7 +93,8 @@ const apiSlice = createSlice({
         state.status = "loading";
       })
       .addCase(createDatabase.fulfilled, (state, action) => {
-        console.log(action.payload);
+        console.log("action.payload", action.payload);
+
         toast.success(action.payload);
         state.status = "succeeded";
         state.message = action.payload;

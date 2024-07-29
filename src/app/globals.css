@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -6,6 +6,7 @@
 
 :root {
   --color-black: #1b1b1b;
+  --color-dark-light: #2f2f2f;
   --color-white: #fefefa;
   --color-grayLight: #b4b4b4;
   --color-grayLight-opec: #dddddd3c;
@@ -13,7 +14,7 @@
   --color-grayDark-opec: #54545430;
   --color-accent: #5155d1;
   --color-accent-opec: #878adf65;
-  --font-inter: 'Inter', sans-serif;
+  --font-inter: "Inter", sans-serif;
 }
 
 body {
@@ -22,6 +23,7 @@ body {
 }
 .ant-upload.ant-upload-drag {
   width: 100%;
+  max-height: 350px;
 }
 .ant-upload-list.ant-upload-list-picture {
   width: 100%;
@@ -32,7 +34,7 @@ body {
 }
 
 .ant-upload-list.ant-upload-list-text {
-  max-height: 200px;
+  max-height: 250px;
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -45,7 +47,7 @@ body {
   padding: 0.5em;
   transition: all 0.3s;
 }
-.new_folder_tab {
+.new_database_tab {
   background-color: var(--color-grayDark-opec);
   color: var(--color-white);
   border-radius: 0.5em;
@@ -57,18 +59,26 @@ body {
 .folder_tab:hover {
   background-color: var(--color-grayDark-opec);
 }
-.folder_tabs::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: var(--color-grayDark-opec);
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent-opec) var(--color-grayDark-opec);
 }
 
-.folder_tabs::-webkit-scrollbar {
-  width: 6px;
-  background-color: var(--color-grayDark-opec);
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 8px;
 }
 
-.folder_tabs::-webkit-scrollbar-thumb {
-  background-color: var(--color-grayDark);
+*::-webkit-scrollbar-track {
+  background: var(--color-grayDark-opec);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--color-accent-opec);
+  border-radius: 10px;
+  border: 3px solid var(--color-grayDark-opec);
 }
 .query_card {
   background-color: var(--color-grayLight-opec);
@@ -105,4 +115,17 @@ body {
 .pdf-iframe {
   flex-grow: 1;
   border: none;
+}
+
+.dark-btn {
+  background-color: var(--color-black);
+  color: var(--color-grayLight);
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+}
+.dark-btn:hover {
+  background-color: var(--color-dark-light);
+  color: var(--color-grayLight);
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
 }

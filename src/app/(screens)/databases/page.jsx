@@ -1,7 +1,13 @@
-import React from 'react'
+"use client";
+import DraggerUpload from "@/app/components/DraggerUpload/DraggerUpload";
+import React from "react";
 
 const page = () => {
-  return <div>Please Select Database to ask Question Or Upload a new one</div>
-}
+  return (
+    <div>
+      <DraggerUpload />
+    </div>
+  );
+};
 
-export default page
+export default page;
