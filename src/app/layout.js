@@ -18,9 +18,9 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider session={session}>
-          {session ? <App>{children}</App> : <Signin />}
+          {/* {session ? <App>{children}</App> : <Signin />} */}
           {/* sdfsfs */}
-          {/* <App>{children}</App> */}
+          <App>{children}</App>
         </SessionProvider>
       </body>
     </html>
