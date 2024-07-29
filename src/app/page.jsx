@@ -1,12 +1,12 @@
+'use client'
 import React from 'react'
 import Home from './components/Home/Home'
-import { auth } from '@/auth'
+import { useSelector } from 'react-redux'
 
-const page = async () => {
-  const session = await auth()
-  const user = session?.user
-  console.log('user', user)
+const Dashboard = () => {
+  const tab = useSelector(state => state.navigation.navTab)
+
   return <Home />
 }
 
-export default page
+export default Dashboard
