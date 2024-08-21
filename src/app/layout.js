@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react"
 import { auth } from "@/auth";
 import Signin from "./components/AuthScreen/Signin";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -14,13 +15,14 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const session = await auth()
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider session={session}>
-          {/* {session ? <App>{children}</App> : <Signin />} */}
+          {session ? <App>{children}</App> : <Signin />}
           {/* sdfsfs */}
-          <App>{children}</App>
+          {/* <App>{children}</App> */}
         </SessionProvider>
       </body>
     </html>

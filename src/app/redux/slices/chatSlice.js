@@ -11,23 +11,23 @@ const initialState = {
   chatList: [],
   status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,
+  loading: true
 };
 
 // Define async thunks
-export const fetchFolders = createAsyncThunk("api/fetchFolders", async () => {
+export const fetchFolders = createAsyncThunk("api/databases", async (email) => {
   const response = await axios.post(
-    `${process.env.NEXT_PUBLIC_BACK_END_SERVER}/list-folders`
+    `${process.env.NEXT_PUBLIC_BACK_END_SERVER}/databases`, { email }
   );
-  return response.data.folders;
+  return response.data.databases;
 });
 
 export const createDatabase = createAsyncThunk(
   "api/createDatabase",
-  async ({ files, folderName }) => {
+  async ({ files, folder_name, email }) => {
     const formData = new FormData();
-    formData.append("folder_name", folderName);
-
-    // Fetch Blob for each file URL and append to FormData
+    formData.append("folder_name", folder_name);
+    formData.append("email", email);
     for (const file of files) {
       const response = await fetch(file.url);
       const blob = await response.blob();
@@ -35,7 +35,7 @@ export const createDatabase = createAsyncThunk(
     }
 
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACK_END_SERVER}/create-database`,
+      `${process.env.NEXT_PUBLIC_BACK_END_SERVER}/database/create`,
       formData,
       {
         headers: {
@@ -56,6 +56,16 @@ export const queryDatabase = createAsyncThunk(
       payload
     );
     return { answer: response.data };
+  }
+);
+export const fetchDatabaseHistory = createAsyncThunk(
+  "api/fetchDatabaseHistory",
+  async (payload) => {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BACK_END_SERVER}/chat/history`,
+      payload
+    );
+    return response.data;
   }
 );
 
@@ -93,7 +103,6 @@ const apiSlice = createSlice({
         state.status = "loading";
       })
       .addCase(createDatabase.fulfilled, (state, action) => {
-        console.log("action.payload", action.payload);
 
         toast.success(action.payload);
         state.status = "succeeded";
@@ -113,6 +122,17 @@ const apiSlice = createSlice({
       })
       .addCase(queryDatabase.rejected, (state, action) => {
         state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(fetchDatabaseHistory.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchDatabaseHistory.fulfilled, (state, action) => {
+        state.loading = false;
+        state.chatList = action.payload;
+      })
+      .addCase(fetchDatabaseHistory.rejected, (state, action) => {
+        state.loading = true;
         state.error = action.error.message;
       });
   },

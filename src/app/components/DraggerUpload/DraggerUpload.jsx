@@ -71,169 +71,178 @@
 // }
 
 // export default DraggerUpload
-"use client";
-import { useEffect, useState } from "react";
-import { Form, Input } from "antd";
-import sendIcon from "@/app/assets/InputBar/sendIcon.svg";
-import Dragger from "antd/es/upload/Dragger";
-import { InboxOutlined } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
-import { createDatabase, queryDatabase } from "../../redux/slices/chatSlice";
-import toast from "react-hot-toast";
-import { useSearchParams } from "next/navigation";
-import starImage from "@/app/assets/hero/star.svg";
+'use client'
+import { useEffect, useState } from 'react'
+import { Form, Input } from 'antd'
+import sendIcon from '@/app/assets/InputBar/sendIcon.svg'
+import Dragger from 'antd/es/upload/Dragger'
+import { InboxOutlined } from '@ant-design/icons'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  createDatabase,
+  fetchFolders,
+  queryDatabase
+} from '../../redux/slices/chatSlice'
+import toast from 'react-hot-toast'
+import { useSearchParams } from 'next/navigation'
+import starImage from '@/app/assets/hero/star.svg'
 
 const DraggerUpload = () => {
-  const searchParams = useSearchParams();
-  const database = searchParams.get("database");
-  const dispatch = useDispatch();
-  const [form] = Form.useForm();
-  const [files, setFiles] = useState([]);
-  const [folderExist, setFolderExist] = useState(false);
-  const [directoryName, setDirectoryName] = useState(database);
-  const [showFiles, setShowFiles] = useState(false);
+  const searchParams = useSearchParams()
+  const database = searchParams.get('database')
+  const dispatch = useDispatch()
+  const email = useSelector(state => state.user.email)
+
+  const [form] = Form.useForm()
+  const [files, setFiles] = useState([])
+  const [folderExist, setFolderExist] = useState(false)
+  const [directoryName, setDirectoryName] = useState(database)
+  const [showFiles, setShowFiles] = useState(false)
   useEffect(() => {
-    setDirectoryName(database);
+    setDirectoryName(database)
     if (database) {
-      setFolderExist(true);
-      setShowFiles(false);
+      setFolderExist(true)
+      setShowFiles(false)
     } else {
-      setFolderExist(false);
-      setShowFiles(true);
+      setFolderExist(false)
+      setShowFiles(true)
     }
-  }, [database]);
+  }, [database])
 
-  const onFinish = (values) => {
-    const { message } = values;
-    const fileBlobURLs = files.map((file) => ({
+  const onFinish = values => {
+    const { message } = values
+    const fileBlobURLs = files.map(file => ({
       name: file.name,
-      url: URL.createObjectURL(file),
-    }));
-
+      url: URL.createObjectURL(file)
+    }))
     if (!message && !directoryName) {
-      return;
+      return
     } else if (message) {
       toast.promise(
         dispatch(
           queryDatabase({
-            query_string: message,
-            folder_name: directoryName,
+            query: message,
+            database: directoryName,
+            email
           })
         ),
         {
           loading: message,
           success: <b></b>,
-          error: <b>Something Went Wrong.</b>,
+          error: <b>Something Went Wrong.</b>
         }
-      );
+      )
     } else {
       dispatch(
         createDatabase({
           files: fileBlobURLs,
-          folderName: directoryName,
+          folder_name: directoryName,
+          email
         })
-      );
+      )
     }
 
     // Reset form fields and file list
-    form.resetFields();
-    setShowFiles(false);
+    form.resetFields()
+    setShowFiles(false)
     if (folderExist) {
-      setShowFiles(false);
-      return;
+      setShowFiles(false)
+      return
     }
-    setDirectoryName(null);
-    setFiles([]);
-    setShowFiles(true);
-  };
+    dispatch(fetchFolders(email))
+    setDirectoryName(null)
+    setFiles([])
+    setShowFiles(true)
+  }
 
-  const handleFileChange = (info) => {
-    const fileList = info.fileList.map((file) => file.originFileObj);
-    setFiles(fileList);
+  const handleFileChange = info => {
+    const fileList = info.fileList.map(file => file.originFileObj)
+    setFiles(fileList)
     if (fileList.length > 0) {
-      const path = fileList[0].webkitRelativePath;
-      const dirName = path.substring(0, path.indexOf("/"));
-      setDirectoryName(dirName);
+      const path = fileList[0].webkitRelativePath
+      const dirName = path.substring(0, path.indexOf('/'))
+
+      setDirectoryName(dirName)
     } else {
-      setDirectoryName(null);
+      setDirectoryName(null)
     }
-  };
+  }
 
   return (
-    <div className="flex items-center p-2  justify-center  w-full flex-col h-screen">
+    <div className='flex items-center p-2  justify-center  w-full flex-col h-screen'>
       <Form
         form={form}
-        name="chat_input"
+        name='chat_input'
         onFinish={onFinish}
-        className="w-full bg-white rounded-lg shadow-lg flex flex-col md:max-w-[400px] lg:max-w-[600px] xl:max-w-[800px]"
+        className='w-full bg-white rounded-lg shadow-lg flex flex-col md:max-w-[400px] lg:max-w-[600px] xl:max-w-[800px]'
       >
-        <div className="flex p-4 gap-2 w-full flex-col">
+        <div className='flex p-4 gap-2 w-full flex-col'>
           <Dragger
             onChange={handleFileChange}
             directory
-            name="file"
+            name='file'
             className={` flex  flex-col gap-2 ${
-              directoryName ? "" : "input_box"
+              directoryName ? '' : 'input_box'
             }`}
             beforeUpload={() => {
-              return false;
+              return false
             }}
             style={{
-              border: "2px dashed #d9d9d9",
-              borderRadius: "6px",
+              border: '2px dashed #d9d9d9',
+              borderRadius: '6px'
             }}
           >
-            <div className="w-full">
-              <div className="flex flex-col items-center gap-4">
-                <div className="flex flex-col items-center gap-4">
-                  <div className="max-w-[70px]">
-                    <img src={starImage.src} className="w-full h-full" />
+            <div className='w-full'>
+              <div className='flex flex-col items-center gap-4'>
+                <div className='flex flex-col items-center gap-4'>
+                  <div className='max-w-[70px]'>
+                    <img src={starImage.src} className='w-full h-full' />
                   </div>
-                  <span className="text-2xl md:text-3xl lg:text-4xl font-semibold text-center">
+                  <span className='text-2xl md:text-3xl lg:text-4xl font-semibold text-center'>
                     Chat With your data
                   </span>
                 </div>
-                <p className="text-sm text-center font-bold">
+                <p className='text-sm text-center font-bold'>
                   Upload You Data or Try Existing Database
                 </p>
               </div>
             </div>
-            <p className="ant-upload-hint">
+            <p className='ant-upload-hint'>
               Support for a single or bulk upload. Strictly prohibited from
               uploading company data or other banned files.
             </p>
           </Dragger>
 
-          <div className="flex justify-between gap-2">
+          <div className='flex justify-between gap-2'>
             <span></span>
             {showFiles ? (
               <></>
             ) : (
               <Form.Item
-                name="message"
-                rules={[{ required: true, message: "Please enter a message" }]}
-                className="w-full m-0"
+                name='message'
+                rules={[{ required: true, message: 'Please enter a message' }]}
+                className='w-full m-0'
               >
                 <Input.TextArea
                   autoSize={{ minRows: 1, maxRows: 10 }}
-                  placeholder="Type your message here..."
-                  className="rounded-md w-full my-0 border-none p-4"
+                  placeholder='Type your message here...'
+                  className='rounded-md w-full my-0 border-none p-4'
                 />
               </Form.Item>
             )}
 
             <button
-              type="submit"
-              className="flex items-center gap-2 font-semibold text-md hover:bg-gray-200 bg-gray-100 transition ease-in-out delay-150 p-2 rounded-md"
+              type='submit'
+              className='flex items-center gap-2 font-semibold text-md hover:bg-gray-200 bg-gray-100 transition ease-in-out delay-150 p-2 rounded-md'
             >
               Upload Database
-              <img src={sendIcon.src} alt="sendIcon" />
+              <img src={sendIcon.src} alt='sendIcon' />
             </button>
           </div>
         </div>
       </Form>
     </div>
-  );
-};
+  )
+}
 
-export default DraggerUpload;
+export default DraggerUpload
