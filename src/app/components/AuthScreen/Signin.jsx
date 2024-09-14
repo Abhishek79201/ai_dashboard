@@ -20,14 +20,24 @@ const Signin = () => {
           </form>
           {/* <form
             action={async () => {
-              "use server";
-              await signIn("google", { redirectTo: "/" });
+              'use server'
+              await signIn('google', { redirectTo: '/' })
             }}
           >
-            <button type="submit" className="login-with-microsoft-btn">
+            <button type='submit' className='login-with-microsoft-btn'>
               Signin with Microsoft
             </button>
           </form> */}
+          <form
+            action={async () => {
+              'use server'
+              await signIn('azure-ad', { redirectTo: '/' })
+            }}
+          >
+            <button type='submit' className='login-with-microsoft-btn'>
+              Sign in with Microsoft
+            </button>
+          </form>
         </div>
       </div>
       <div className='w-[35%] lg:w-[50%] hidden md:block h-screen overflow-hidden'>
