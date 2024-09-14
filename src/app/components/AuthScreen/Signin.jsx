@@ -31,7 +31,7 @@ const Signin = () => {
           <form
             action={async () => {
               'use server'
-              await signIn('azure-ad', { redirectTo: '/' })
+              await signIn('microsoft-entra-id', { redirectTo: '/' })
             }}
           >
             <button type='submit' className='login-with-microsoft-btn'>
