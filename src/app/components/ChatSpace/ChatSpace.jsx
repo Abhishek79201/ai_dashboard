@@ -142,7 +142,8 @@ const ResponseCard = ({ chat, index }) => {
 const ChatSpace = () => {
   const chatList = useSelector(state => state.chat.chatList)
   const loading = useSelector(state => state.chat.loading)
-
+  const status = useSelector(state => state.chat.status)
+  console.log(status)
   return (
     <div className={`flex gap-4 p-4 pt-[56px]  m-auto max-w-[1000px]`}>
       {loading ? (
@@ -159,7 +160,7 @@ const ChatSpace = () => {
                     <ResponseCard chat={chat} index={index} key={uuidv4()} />
                   )
                 })}
-                {loading == 'loading' ? (
+                {status == 'loading' ? (
                   <div className='  max-w-[600px] query_card'>
                     <div className='animate-bounce  max-w-[600px]'>
                       <img

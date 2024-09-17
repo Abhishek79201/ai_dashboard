@@ -18,16 +18,7 @@ const Signin = () => {
               Signin with Google
             </button>
           </form>
-          {/* <form
-            action={async () => {
-              'use server'
-              await signIn('google', { redirectTo: '/' })
-            }}
-          >
-            <button type='submit' className='login-with-microsoft-btn'>
-              Signin with Microsoft
-            </button>
-          </form> */}
+
           <form
             action={async () => {
               'use server'
